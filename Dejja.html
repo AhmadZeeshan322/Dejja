@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fff0f5 0%, #fce4ec 40%, #f8bbd9 100%);
+    font-family: 'Lato', sans-serif;
+    overflow-x: hidden;
+  }
+
+  .petals-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+
+  .petal {
+    position: absolute;
+    width: 18px; height: 24px;
+    background: radial-gradient(ellipse, #ffb3c8 30%, #ff85a1 100%);
+    border-radius: 60% 40% 60% 40%;
+    opacity: 0;
+    animation: fallDown linear infinite;
+  }
+
+  @keyframes fallDown {
+    0%   { transform: translateY(-40px) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  .card {
+    position: relative; z-index: 1;
+    max-width: 600px;
+    margin: 40px auto;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(12px);
+    border-radius: 32px;
+    border: 1.5px solid rgba(255,160,185,0.35);
+    box-shadow: 0 8px 48px rgba(220,80,120,0.10);
+    overflow: hidden;
+    padding: 0 0 40px;
+  }
+
+  .card-header {
+    background: linear-gradient(135deg, #ff8fab 0%, #ff4d7d 100%);
+    padding: 36px 32px 28px;
+    text-align: center;
+    position: relative;
+  }
+
+  .emoji-big {
+    font-size: 56px;
+    display: block;
+    margin-bottom: 10px;
+    animation: heartbeat 1.6s ease-in-out infinite;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.18); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.10); }
+  }
+
+  .card-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+  }
+
+  .card-header p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: rgba(255,255,255,0.88);
+    font-size: 20px;
+    margin-top: 8px;
+  }
+
+  .stars {
+    position: absolute; top: 14px; right: 18px;
+    font-size: 20px; opacity: 0.7;
+    animation: twinkle 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes twinkle {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+  }
+
+  .content {
+    padding: 28px 32px 0;
+  }
+
+  .sorry-block {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .sorry-block .label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #e75480;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+
+  .sorry-block p {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    color: #5a1a2e;
+    line-height: 1.75;
+    font-style: italic;
+  }
+
+  .divider {
+    text-align: center;
+    font-size: 20px;
+    margin: 8px 0 22px;
+    letter-spacing: 6px;
+    opacity: 1;
+  }
+
+  .reasons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .reason-card {
+    background: linear-gradient(135deg, #fff0f5 60%, #fce4ec 100%);
+    border-radius: 16px;
+    border: 1px solid rgba(220,80,120,0.15);
+    padding: 14px 14px 12px;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+
+  .reason-card:hover { transform: translateY(-3px); }
+
+  .reason-card .ico { font-size: 26px; margin-bottom: 6px; display: block; }
+  .reason-card .rtitle { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: #c0305a; margin-bottom: 4px; }
+  .reason-card .rdesc { font-size: 12px; color: #8a4060; line-height: 1.5; }
+
+  .promise-box {
+    background: linear-gradient(135deg, #ff8fab22 0%, #ff4d7d11 100%);
+    border: 1.5px dashed rgba(220,80,120,0.35);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  .promise-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #c0305a;
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+  }
+
+  .promise-list {
+    list-style: none;
+    text-align: left;
+  }
+
+  .promise-list li {
+    font-size: 13.5px;
+    color: #7a2a45;
+    padding: 5px 0 5px 28px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .promise-list li::before {
+    content: '✦';
+    position: absolute; left: 6px; top: 5px;
+    color: #ff4d7d;
+    font-size: 11px;
+  }
+
+  .final-msg {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .final-msg p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: #b0274a;
+    line-height: 1.6;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-yes {
+    background: linear-gradient(135deg, #ff8fab, #ff4d7d);
+    border: none;
+    border-radius: 50px;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 13px 34px;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(255,77,125,0.32);
+    transition: transform 0.15s, box-shadow 0.15s;
+    letter-spacing: 0.3px;
+  }
+
+  .btn-yes:hover { transform: scale(1.05); box-shadow: 0 6px 24px rgba(255,77,125,0.42); }
+  .btn-yes:active { transform: scale(0.98); }
+
+  .btn-no {
+    background: transparent;
+    border: 1.5px solid rgba(200,80,120,0.45);
+    border-radius: 50px;
+    color: #c0305a;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    padding: 12px 28px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.3px;
+  }
+
+  .btn-no:hover { background: #fff0f5; border-color: #ff4d7d; }
+
+  .thankyou {
+    display: none;
+    text-align: center;
+    padding: 30px 20px 10px;
+    animation: popIn 0.4s cubic-bezier(0.18,1.5,0.4,1) both;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .thankyou .big-heart { font-size: 64px; display: block; margin-bottom: 10px; }
+  .thankyou h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: #c0305a;
+    margin-bottom: 8px;
+  }
+  .thankyou p { font-size: 14px; color: #8a4060; line-height: 1.6; }
+
+  .footer-note {
+    text-align: center;
+    font-size: 11px;
+    color: #c0879b;
+    margin-top: 18px;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Falling petals -->
+<div class="petals-bg" id="petals"></div>
+
+<div class="card">
+  <div class="card-header">
+    <span class="stars"></span>
+    <span class="emoji-big">🌷</span>
+    <h1>Dejja,<br>Meri Jaan</h1>
+    <p>Please I'm sorry, please forgive me, I have realized my mistake.</p>
+  </div>
+
+  <div class="content" id="mainContent">
+    <div class="sorry-block">
+      <div class="label"></div>
+      <p>
+        "Main jaanta hoon main galat tha.<br>
+        Ap ne bulaya, aur main aa nahi saka<br>
+        Mera waqai dil tha lekin me phir bhe Sorry karta hoon.<br>
+        Sab kuch bardasht kar sakta hoon,<br>
+        Lekin apka Gussa or Narazgi nhi bardasht kar sakta 😞"
+      </p>
+    </div>
+
+    <div class="divider">🌸 🌸 🌸</div>
+
+    <div class="reasons">
+      <div class="reason-card">
+        <span class="ico">🌙</span>
+        <div class="rtitle">Raat ko jaldi sona</div>
+        <div class="rdesc">Jaldi so jaata hoon, lekin yeh apki importance kam nahi karta — bilkul bhi nahi.</div>
+      </div>
+      <div class="reason-card">
+        <span class="ico">🌹</span>
+        <div class="rtitle">Baat Man'na</div>
+        <div class="rdesc">Ainda se jo bhe baat hoge me apse communicate kar ke us baat ko pora karon ga, that's my promise.</div>
+      </div>
+      <div class="reason-card">
+        <span class="ico">💗</span>
+        <div class="rtitle">Time for you</div>
+        <div class="rdesc">Ab se apke liye or ziyda time nikalon ga or harr waqt available hoon ga.</div>
+      </div>
+      <div class="reason-card">
+        <span class="ico">🤞</span>
+        <div class="rtitle">Promise</div>
+        <div class="rdesc">Apko feel nahi hone dunga ke main available nahi — yeh promise hai.</div>
+      </div>
+    </div>
+
+    <div class="promise-box">
+      <h3>💌 My Promises — For You</h3>
+      <ul class="promise-list">
+        <li>Raat ko sonne se pehle hamesha baat clear karon ga, or maximun time doon ga.</li>
+        <li>Jab ap bulayen, hamesha try karunga aane ki.</li>
+        <li>Akela feel nahi hone dunga apko — kabhi nahi</li>
+        <li>Apni galti maan ke use theek karon ga.</li>
+      </ul>
+    </div>
+
+    <div class="final-msg">
+      <p>"Ap mere liye harr kise se ziyada Important hain<br>Apki Naraazgi or Gussa rehna afford nahi kar sakta main." 💖</p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-yes" onclick="showThankyou()">Maaf kar do mujhe 💕</button>
+      <button class="btn-no" onclick="noBtn(this)">Abhi nahi…</button>
+    </div>
+
+    <div class="thankyou" id="thankyou">
+      <span class="big-heart">💖</span>
+      <h2>Thank Youu, Dejjaa!</h2>
+      <p>Apne maaf kiya — ye mere liye sab se bade cheez hai.<br>
+      Ab aur behtar karunga,I promise. 🌹</p>
+    </div>
+  </div>
+
+  <div class="footer-note">with all my heart 🤍</div>
+</div>
+
+<script>
+  // Generate falling petals
+  const container = document.getElementById('petals');
+  for (let i = 0; i < 100; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (4 + Math.random() * 6) + 's';
+    p.style.animationDelay = (Math.random() * 8) + 's';
+    p.style.transform = 'rotate(' + (Math.random() * 180) + 'deg)';
+    p.style.width = (10 + Math.random() * 14) + 'px';
+    p.style.height = (14 + Math.random() * 16) + 'px';
+    const hue = 330 + Math.random() * 30;
+    p.style.background = `radial-gradient(ellipse, hsl(${hue},100%,78%) 30%, hsl(${hue},90%,60%) 100%)`;
+    container.appendChild(p);
+  }
+
+  let noCount = 0;
+  const noMessages = [
+    'Please… 🥺', 'Ek baar soch lo…', 'Main bahut sharminda hoon…', 'Please Deejja? 💔', 'Maaf kar do na…'
+  ];
+
+  function noBtn(btn) {
+    btn.textContent = noMessages[Math.min(noCount, noMessages.length - 1)] + ' ↗';
+    noCount++;
+    btn.style.borderColor = '#ff4d7d';
+    btn.style.color = '#ff4d7d';
+  }
+
+  function showThankyou() {
+    document.getElementById('thankyou').style.display = 'block';
+    document.querySelector('.btn-row').style.display = 'none';
+    document.querySelector('.final-msg').style.display = 'none';
+    // Extra petals burst
+    for (let i = 0; i < 15; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = '-20px';
+      p.style.animationDuration = (2 + Math.random() * 3) + 's';
+      p.style.animationDelay = (Math.random() * 1) + 's';
+      container.appendChild(p);
+    }
+  }
+</script>
+</body>
+</html>
